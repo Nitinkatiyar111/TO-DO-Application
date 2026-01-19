@@ -7,7 +7,15 @@ function App() {
   const [tasks, setTasks] = useState([]);
 
   function handleAddTask(task) {
-    setTasks((prevTasks) => [...prevTasks, task]);
+    setTasks((prevTasks) => [...prevTasks,
+      {
+        id: Date.now(),
+        text : task,
+  },
+]);
+  }
+  function handleDeleteTask(id){
+    setTasks((prev)=> prev.filter((task)=> task.id !== id));
   }
 
   return (
@@ -20,7 +28,7 @@ function App() {
       {/* 🔑 Shared centered column */}
       <div className="w-[420px] mx-auto mt-6">
         <AddTaskForm onAddTask={handleAddTask} />
-        <TaskList tasks={tasks} />
+        <TaskList tasks={tasks} onDeleteTask={handleDeleteTask} />
       </div>
     </div>
   );
