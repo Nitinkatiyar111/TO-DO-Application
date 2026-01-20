@@ -9,14 +9,24 @@ function App() {
   function handleAddTask(task) {
     setTasks((prevTasks) => [...prevTasks,
       {
-        id: Date.now(),
+        id: crypto.randomUUID(),
         text : task,
+        completed: false
   },
 ]);
   }
   function handleDeleteTask(id){
     setTasks((prev)=> prev.filter((task)=> task.id !== id));
   }
+  function handleToggleComplete(id) {
+  setTasks((prev) =>
+    prev.map((task) =>
+      task.id === id
+        ? { ...task, completed: !task.completed }
+        : task
+    )
+  );
+}
 
   return (
     <div>
@@ -27,8 +37,9 @@ function App() {
 
       {/* 🔑 Shared centered column */}
       <div className="w-[420px] mx-auto mt-6">
-        <AddTaskForm onAddTask={handleAddTask} />
-        <TaskList tasks={tasks} onDeleteTask={handleDeleteTask} />
+        <AddTaskForm onAddTask={ handleAddTask} />
+        <TaskList tasks={tasks} onDeleteTask={handleDeleteTask} 
+        onToggleComplete = {handleToggleComplete} />
       </div>
     </div>
   );
